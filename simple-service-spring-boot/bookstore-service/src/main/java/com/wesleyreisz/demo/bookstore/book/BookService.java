@@ -12,6 +12,14 @@ import java.util.List;
  * Created by wesleyreisz on 12/28/16.
  */
 public class BookService {
+    private static BookService service = new BookService();
+
+    private BookService(){}
+
+    public static BookService getInstance(){
+        return service;
+    }
+
     List<Book> bookList = new ArrayList<>();
     {
         bookList.add(new Book("A123","War and Peace", new Author(1,"Leonardo","Tolstoy","wes@wesleyreisz.com"),new Date()));
@@ -34,13 +42,25 @@ public class BookService {
         }
         return new Book();
     }
-    public void addBook(Book book){
-        if (StringUtils.isEmpty(book)){
-            return;
+    public Book addBook(Book book){
+        if ( StringUtils.isEmpty(book)){
+            return null;
         }
 
         bookList.add(book);
+        return findByISBN(book.getIsbn());
     }
+
+    public Book updateBook(Book book){
+        if(StringUtils.isEmpty(book.getIsbn())){ //if isbn doesn't have a value return
+            return null;
+        }
+
+        removeBook(book);
+        addBook(book);
+        return findByISBN(book.getIsbn());
+    }
+
     public void removeBook(Book book2remove){
         if (StringUtils.isEmpty(book2remove)){
             return;

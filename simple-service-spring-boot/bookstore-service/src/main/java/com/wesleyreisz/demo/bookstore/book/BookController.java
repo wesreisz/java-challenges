@@ -14,14 +14,17 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Book> getBooks(){
-        return new BookService().getAll();
+        return BookService.getInstance().getAll();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{isbn}")
     public Book getBook(@PathVariable String isbn){
-        return new BookService().findByISBN(isbn);
+        return BookService.getInstance().findByISBN(isbn);
     }
 
-    /*TODO: Add the put, delete methods*/
+    @RequestMapping(method = RequestMethod.POST)
+    public Book addBook(@RequestBody Book input){
+        return BookService.getInstance().updateBook(input);
+    }
 
 }

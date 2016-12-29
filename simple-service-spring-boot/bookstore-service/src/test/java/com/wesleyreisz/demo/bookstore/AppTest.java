@@ -4,6 +4,7 @@ import com.wesleyreisz.demo.bookstore.book.model.Author;
 import com.wesleyreisz.demo.bookstore.book.model.Book;
 import com.wesleyreisz.demo.bookstore.book.BookService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
@@ -14,10 +15,16 @@ import java.util.List;
  */
 
 public class AppTest {
+    BookService service;
+
+    @Before
+    public void initialize() {
+        service = null;
+        service = BookService.getInstance();
+    }
+
     @Test
     public void getListTest(){
-        BookService service = new BookService();
-
         List<Book> bookList = service.getAll();
         Assert.assertNotNull(bookList);
         Assert.assertEquals(3, bookList.size());
@@ -25,19 +32,17 @@ public class AppTest {
 
     @Test
     public void addBookTest(){
-        BookService service = new BookService();
-
         List<Book> bookList = service.getAll();
-        Assert.assertEquals(3, bookList.size());
-        Book newBook = new Book("b123","New Test Book",new Author(11,"Joe","Jones","joe@jones.com"),new Date());
+        String bookISN = "b123";
+        Book newBook = new Book(bookISN,"New Test Book",new Author(11,"Joe","Jones","joe@jones.com"),new Date());
         service.addBook(newBook);
-        Assert.assertEquals(4, bookList.size());
+
+        Book addedBook = service.findByISBN(bookISN);
+        Assert.assertEquals(newBook.toString().hashCode(),addedBook.toString().hashCode());
     }
 
     @Test
     public void removeBookTest(){
-        BookService service = new BookService();
-
         List<Book> bookList = service.getAll();
         Assert.assertEquals(3, bookList.size());
         Book oldBook = new Book("A123","War and Peace", new Author(1,"Leonardo","Tolstoy","wes@wesleyreisz.com"),new Date());
@@ -47,10 +52,32 @@ public class AppTest {
 
     @Test
     public void getBookTest(){
-        BookService service = new BookService();
         Book book = service.findByISBN("A123");
-        Assert.assertEquals("Leonardo",book.getAuthorName().getFirstName());
-        Assert.assertEquals("A123",book.getIsbn());
-        Assert.assertEquals("War and Peace", book.getName());
+
+        Assert.assertNotNull(book.getIsbn());
+        Assert.assertNotNull(book.getAuthor());
+        Assert.assertNotNull(book.getAuthor().getEmail());
     }
+
+    @Test
+    public void updateBookTest(){
+        String testISBN = "A123";
+
+        int originalHashCode = service.findByISBN(testISBN).toString().hashCode();
+        Book updatedBook = service.findByISBN(testISBN);
+
+        Assert.assertEquals(originalHashCode,updatedBook.toString().hashCode());
+
+        updatedBook.setName("My New Book");
+        Author updatedAuthor = updatedBook.getAuthor();
+        updatedAuthor.setFirstName("Wes");
+        updatedAuthor.setEmail("wes@wesleyreisz.com");
+        updatedBook.setAuthor(updatedAuthor);
+
+        service.updateBook(updatedBook);
+
+        Book testBook = service.findByISBN(testISBN);
+        Assert.assertNotEquals(originalHashCode,testBook.toString().hashCode());
+    }
+
 }

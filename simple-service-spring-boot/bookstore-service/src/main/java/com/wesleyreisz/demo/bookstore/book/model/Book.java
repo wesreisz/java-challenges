@@ -8,13 +8,13 @@ import java.util.Date;
 public class Book {
     private String isbn;
     private String name;
-    private Author authorName;
+    private Author author;
     private Date releaseDate;
 
     public Book(String isbn, String name, Author authorName, Date releaseDate) {
         this.isbn = isbn;
         this.name = name;
-        this.authorName = authorName;
+        this.author = authorName;
         this.releaseDate = releaseDate;
     }
 
@@ -36,12 +36,12 @@ public class Book {
         this.name = name;
     }
 
-    public Author getAuthorName() {
-        return authorName;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorName(Author authorName) {
-        this.authorName = authorName;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public Date getReleaseDate() {
@@ -57,7 +57,7 @@ public class Book {
         return "Book{" +
                 "isbn='" + isbn + '\'' +
                 ", name='" + name + '\'' +
-                ", authorName=" + authorName +
+                ", author=" + author +
                 ", releaseDate=" + releaseDate +
                 '}';
     }
