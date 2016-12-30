@@ -22,9 +22,9 @@ public class BookController {
         return BookService.getInstance().findByISBN(isbn);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.PUT)
     public Book addBook(@RequestBody Book input){
-        return BookService.getInstance().updateBook(input);
+        return BookService.getInstance().addUpdateBook(input);
     }
 
 }

@@ -32,10 +32,9 @@ public class AppTest {
 
     @Test
     public void addBookTest(){
-        List<Book> bookList = service.getAll();
         String bookISN = "b123";
         Book newBook = new Book(bookISN,"New Test Book",new Author(11,"Joe","Jones","joe@jones.com"),new Date());
-        service.addBook(newBook);
+        service.addUpdateBook(newBook);
 
         Book addedBook = service.findByISBN(bookISN);
         Assert.assertEquals(newBook.toString().hashCode(),addedBook.toString().hashCode());

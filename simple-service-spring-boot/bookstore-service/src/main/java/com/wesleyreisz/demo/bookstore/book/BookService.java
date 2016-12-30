@@ -42,11 +42,26 @@ public class BookService {
         }
         return new Book();
     }
-    public Book addBook(Book book){
-        if ( StringUtils.isEmpty(book)){
+    public Book addUpdateBook(Book book){
+        if (StringUtils.isEmpty(book)){
             return null;
         }
 
+        if (doesPreviousIsbnExist(book)){
+            updateBook(book);
+        }else{
+            addBook(book);
+        }
+
+        return findByISBN(book.getIsbn());
+    }
+
+    public Book addBook(Book book){
+        if (StringUtils.isEmpty(book)){
+            return null;
+        }
+
+        //no book in list, add it
         bookList.add(book);
         return findByISBN(book.getIsbn());
     }
@@ -57,7 +72,7 @@ public class BookService {
         }
 
         removeBook(book);
-        addBook(book);
+        addUpdateBook(book);
         return findByISBN(book.getIsbn());
     }
 
@@ -71,4 +86,18 @@ public class BookService {
             }
         }
     }
+
+    private boolean doesPreviousIsbnExist(Book book) {
+        if(StringUtils.isEmpty(book)){
+            return false;
+        }
+
+        for (Book bookItem : bookList){
+            if (bookItem.getIsbn().equalsIgnoreCase(book.getIsbn())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
