@@ -2,6 +2,7 @@ package com.wesleyreisz.demo.bookstore.book;
 
 import com.wesleyreisz.demo.bookstore.book.model.Author;
 import com.wesleyreisz.demo.bookstore.book.model.Book;
+import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -76,15 +77,18 @@ public class BookService {
         return findByISBN(book.getIsbn());
     }
 
-    public void removeBook(Book book2remove){
+    public ServiceResponse removeBook(Book book2remove){
         if (StringUtils.isEmpty(book2remove)){
-            return;
+            return new ServiceResponse(String.format("Book with isbn: %s not found", book2remove.getIsbn()));
         }
         for(int i = 0; i <bookList.size();i++){
             if (bookList.get(i).getIsbn().equalsIgnoreCase(book2remove.getIsbn())){
                 bookList.remove(i);
+                return new ServiceResponse(String.format("Book with isbn: %s removed", book2remove.getIsbn()));
             }
         }
+
+        return new ServiceResponse(String.format("Book with isbn: %s not found", book2remove.getIsbn()));
     }
 
     private boolean doesPreviousIsbnExist(Book book) {

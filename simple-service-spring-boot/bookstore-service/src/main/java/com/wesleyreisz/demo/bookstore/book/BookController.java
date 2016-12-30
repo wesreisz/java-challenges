@@ -1,8 +1,10 @@
 package com.wesleyreisz.demo.bookstore.book;
 
 import com.wesleyreisz.demo.bookstore.book.model.Book;
+import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -27,4 +29,8 @@ public class BookController {
         return BookService.getInstance().addUpdateBook(input);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{isbn}")
+    public ServiceResponse removeBook(@PathVariable String isbn, HttpServletRequest request){
+        return BookService.getInstance().removeBook(new Book(isbn));
+    }
 }
