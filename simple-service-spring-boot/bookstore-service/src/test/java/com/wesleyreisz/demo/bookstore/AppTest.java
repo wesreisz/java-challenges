@@ -58,6 +58,11 @@ public class AppTest {
         Assert.assertNotNull(book.getAuthor().getEmail());
     }
 
+    @Test(expected=RuntimeException.class)
+    public void getBookNotFoundTest(){
+        service.findByISBN("B123");
+    }
+
     @Test
     public void updateBookTest(){
         String testISBN = "A123";

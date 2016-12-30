@@ -41,7 +41,8 @@ public class BookService {
                 return book;
             }
         }
-        return new Book();
+
+        throw new RuntimeException("Resource not Found");
     }
     public Book addUpdateBook(Book book){
         if (StringUtils.isEmpty(book)){

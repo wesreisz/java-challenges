@@ -2,6 +2,8 @@ package com.wesleyreisz.demo.bookstore.book;
 
 import com.wesleyreisz.demo.bookstore.book.model.Book;
 import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +22,12 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{isbn}")
-    public Book getBook(@PathVariable String isbn){
-        return BookService.getInstance().findByISBN(isbn);
+    public Object getBook(@PathVariable String isbn){
+        try{
+            return BookService.getInstance().findByISBN(isbn);
+        }catch (RuntimeException e){
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(method = RequestMethod.PUT)
