@@ -42,7 +42,7 @@ public class BookServiceMock {
             }
         }
 
-        throw new RuntimeException("Resource not Found");
+        return new Book();
     }
     public Book addUpdateBook(Book book){
         if (StringUtils.isEmpty(book)){

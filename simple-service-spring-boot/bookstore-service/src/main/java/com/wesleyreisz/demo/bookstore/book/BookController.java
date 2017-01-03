@@ -5,6 +5,7 @@ import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +27,13 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{isbn}")
     public ResponseEntity getBook(@PathVariable String isbn){
-        try{
-            return new ResponseEntity<>(BookServiceMock.getInstance().findByISBN(isbn), HttpStatus.OK);
-        }catch (RuntimeException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+            Book book = BookServiceMock.getInstance().findByISBN(isbn);
+            if (!StringUtils.isEmpty(book.getName())){
+                return new ResponseEntity<>(book, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            }
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -40,7 +43,7 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{isbn}")
-    public ResponseEntity removeBook(@PathVariable String isbn, HttpServletRequest request){
+    public ResponseEntity removeBook(@PathVariable String isbn){
         if (StringUtils.isEmpty(BookServiceMock.getInstance().findByISBN(isbn).getAuthor())){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

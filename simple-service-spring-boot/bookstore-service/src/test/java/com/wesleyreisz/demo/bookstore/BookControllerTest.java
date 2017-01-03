@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BookController.class)
-public class RestControllerTest {
+public class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -77,6 +77,7 @@ public class RestControllerTest {
     public void getBookThatDoesntExist() throws Exception {
         this.mockMvc.perform(get("/books/e124")
                 .accept(MediaType.ALL))
+                .andDo(print())
                 .andExpect(status().isNotFound())
         ;
     }
