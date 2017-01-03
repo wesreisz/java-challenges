@@ -62,7 +62,7 @@ public class RestControllerTest {
         ;
     }
 
-    /*
+
     @Test
     public void addBook() throws Exception {
         this.mvc.perform(get("/books/b124")
@@ -70,9 +70,11 @@ public class RestControllerTest {
                 .andExpect(status().is4xxClientError())
         ;
 
+        /*
         this.mvc.perform(put("/books", new Book("b124","New Test Book",new Author(11,"Joe","Jones","joe@jones.com"),new Date()))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+                */
     }
-    */
+
 }

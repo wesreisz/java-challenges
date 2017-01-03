@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * Created by wesleyreisz on 12/28/16.
  */
-public class BookService {
-    private static BookService service = new BookService();
+public class BookServiceMock {
+    private static BookServiceMock service = new BookServiceMock();
 
-    private BookService(){}
+    private BookServiceMock(){}
 
-    public static BookService getInstance(){
+    public static BookServiceMock getInstance(){
         return service;
     }
 

@@ -2,7 +2,7 @@ package com.wesleyreisz.demo.bookstore;
 
 import com.wesleyreisz.demo.bookstore.book.model.Author;
 import com.wesleyreisz.demo.bookstore.book.model.Book;
-import com.wesleyreisz.demo.bookstore.book.BookService;
+import com.wesleyreisz.demo.bookstore.book.BookServiceMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,13 +14,13 @@ import java.util.List;
  * Unit test for simple App.
  */
 
-public class AppTest {
-    BookService service;
+public class BookServiceMockTest {
+    BookServiceMock service;
 
     @Before
     public void initialize() {
         service = null;
-        service = BookService.getInstance();
+        service = BookServiceMock.getInstance();
     }
 
     @Test

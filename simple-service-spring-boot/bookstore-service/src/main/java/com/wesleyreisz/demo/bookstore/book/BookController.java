@@ -18,13 +18,13 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Book> getBooks(){
-        return BookService.getInstance().getAll();
+        return BookServiceMock.getInstance().getAll();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{isbn}")
     public Object getBook(@PathVariable String isbn){
         try{
-            return BookService.getInstance().findByISBN(isbn);
+            return BookServiceMock.getInstance().findByISBN(isbn);
         }catch (RuntimeException e){
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
@@ -32,11 +32,11 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public Book addBook(@RequestBody Book input){
-        return BookService.getInstance().addUpdateBook(input);
+        return BookServiceMock.getInstance().addUpdateBook(input);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{isbn}")
     public ServiceResponse removeBook(@PathVariable String isbn, HttpServletRequest request){
-        return BookService.getInstance().removeBook(new Book(isbn));
+        return BookServiceMock.getInstance().removeBook(new Book(isbn));
     }
 }
