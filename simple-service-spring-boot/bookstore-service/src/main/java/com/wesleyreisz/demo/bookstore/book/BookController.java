@@ -5,6 +5,7 @@ import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,27 +20,30 @@ import java.util.List;
 public class BookController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Book> getBooks(){
-        return BookServiceMock.getInstance().getAll();
+    public ResponseEntity getBooks(){
+        return new ResponseEntity<>(BookServiceMock.getInstance().getAll(),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{isbn}")
-    public Object getBook(@PathVariable String isbn){
+    public ResponseEntity getBook(@PathVariable String isbn){
         try{
-            return BookServiceMock.getInstance().findByISBN(isbn);
+            return new ResponseEntity<>(BookServiceMock.getInstance().findByISBN(isbn), HttpStatus.OK);
         }catch (RuntimeException e){
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Book addBook(@RequestBody Book input) throws ParseException{
-        return BookServiceMock.getInstance().addUpdateBook(input);
+    public ResponseEntity addBook(@RequestBody Book input) throws ParseException{
+        return new ResponseEntity<>(BookServiceMock.getInstance().addUpdateBook(input), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{isbn}")
-    public ServiceResponse removeBook(@PathVariable String isbn, HttpServletRequest request){
-        return BookServiceMock.getInstance().removeBook(new Book(isbn));
+    public ResponseEntity removeBook(@PathVariable String isbn, HttpServletRequest request){
+        if (StringUtils.isEmpty(BookServiceMock.getInstance().findByISBN(isbn).getAuthor())){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(BookServiceMock.getInstance().removeBook(new Book(isbn)), HttpStatus.OK);
     }
 }

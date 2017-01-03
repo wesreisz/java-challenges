@@ -75,9 +75,9 @@ public class RestControllerTest {
 
     @Test
     public void getBookThatDoesntExist() throws Exception {
-        this.mockMvc.perform(get("/books/b124")
+        this.mockMvc.perform(get("/books/e124")
                 .accept(MediaType.ALL))
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isNotFound())
         ;
     }
 
@@ -93,12 +93,26 @@ public class RestControllerTest {
         this.mockMvc.perform(
                     put("/books")
                         .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                        .accept(MediaType.APPLICATION_JSON)
                         .content(bookJson)
                     )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+    }
+
+    @Test
+    public void removeBook() throws Exception{
+        this.mockMvc.perform(get("/books/a125")
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk());
+
+        this.mockMvc.perform(delete("/books/a125")
+                .accept(MediaType.ALL))
+                .andExpect(status().isOk());
+
+        this.mockMvc.perform(get("/books/a125")
+                .accept(MediaType.ALL))
+                .andExpect(status().isNotFound());
     }
 
 }
