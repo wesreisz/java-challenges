@@ -3,10 +3,12 @@ package com.wesleyreisz.demo.bookstore.book;
 import com.wesleyreisz.demo.bookstore.book.model.Book;
 import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -30,8 +32,9 @@ public class BookController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public Book addBook(@RequestBody Book input){
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Book addBook(@RequestBody Book input) throws ParseException{
         return BookServiceMock.getInstance().addUpdateBook(input);
     }
 
