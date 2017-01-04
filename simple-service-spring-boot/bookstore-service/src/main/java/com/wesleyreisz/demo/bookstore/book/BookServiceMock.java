@@ -3,6 +3,7 @@ package com.wesleyreisz.demo.bookstore.book;
 import com.wesleyreisz.demo.bookstore.book.model.Author;
 import com.wesleyreisz.demo.bookstore.book.model.Book;
 import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -13,8 +14,8 @@ import java.util.List;
 /**
  * Created by wesleyreisz on 12/28/16.
  */
+@Service
 public class BookServiceMock {
-    //private static BookServiceMock service = new BookServiceMock();
     private static List<Book> bookList = null;
 
     public BookServiceMock(){

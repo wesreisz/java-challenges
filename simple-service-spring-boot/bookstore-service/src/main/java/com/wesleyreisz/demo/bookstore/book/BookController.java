@@ -2,6 +2,7 @@ package com.wesleyreisz.demo.bookstore.book;
 
 import com.wesleyreisz.demo.bookstore.book.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,8 @@ import java.text.ParseException;
 @RequestMapping("/books")
 public class BookController {
 
-    BookServiceMock service = new BookServiceMock();
+    @Autowired
+    BookServiceMock service;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getBooks(){
