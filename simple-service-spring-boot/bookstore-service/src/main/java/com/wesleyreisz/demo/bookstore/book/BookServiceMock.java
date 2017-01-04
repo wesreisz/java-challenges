@@ -3,6 +3,7 @@ package com.wesleyreisz.demo.bookstore.book;
 import com.wesleyreisz.demo.bookstore.book.model.Author;
 import com.wesleyreisz.demo.bookstore.book.model.Book;
 import com.wesleyreisz.demo.bookstore.book.model.ServiceResponse;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -13,19 +14,17 @@ import java.util.List;
  * Created by wesleyreisz on 12/28/16.
  */
 public class BookServiceMock {
-    private static BookServiceMock service = new BookServiceMock();
+    //private static BookServiceMock service = new BookServiceMock();
+    private static List<Book> bookList = null;
 
-    private BookServiceMock(){}
+    public BookServiceMock(){
+        if (ObjectUtils.isEmpty(bookList)){
+            bookList = new ArrayList<>();
 
-    public static BookServiceMock getInstance(){
-        return service;
-    }
-
-    List<Book> bookList = new ArrayList<>();
-    {
-        bookList.add(new Book("A123","War and Peace", new Author(1,"Leonardo","Tolstoy","wes@wesleyreisz.com"),new Date()));
-        bookList.add(new Book("A124","Card Chronicles", new Author(2,"Matt","Mathews","wes@wesleyreisz.com"),new Date()));
-        bookList.add(new Book("A125","Shogun", new Author(3,"James","Clavel","wes@wesleyreisz.com"),new Date()));
+            bookList.add(new Book("A123","War and Peace", new Author(1,"Leonardo","Tolstoy","wes@wesleyreisz.com"),new Date()));
+            bookList.add(new Book("A124","Card Chronicles", new Author(2,"Matt","Mathews","wes@wesleyreisz.com"),new Date()));
+            bookList.add(new Book("A125","Shogun", new Author(3,"James","Clavel","wes@wesleyreisz.com"),new Date()));
+        }
     }
 
     public List<Book> getAll(){

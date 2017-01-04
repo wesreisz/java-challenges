@@ -6,6 +6,12 @@ import com.wesleyreisz.demo.bookstore.book.BookServiceMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -14,13 +20,14 @@ import java.util.List;
  * Unit test for simple App.
  */
 
+
 public class BookServiceMockTest {
     BookServiceMock service;
 
     @Before
     public void initialize() {
         service = null;
-        service = BookServiceMock.getInstance();
+        service =  new BookServiceMock();
     }
 
     @Test
@@ -58,9 +65,11 @@ public class BookServiceMockTest {
         Assert.assertNotNull(book.getAuthor().getEmail());
     }
 
-    @Test(expected=RuntimeException.class)
+    @Test
     public void getBookNotFoundTest(){
-        service.findByISBN("B123");
+        Book book = service.findByISBN("B123");
+        Assert.assertNotNull(book);
+        Assert.assertTrue(StringUtils.isEmpty(book.getName()));
     }
 
     @Test
